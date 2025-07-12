@@ -87,3 +87,36 @@ document.querySelectorAll('button').forEach(btn => {
 
 // Inicializar todo al cargar
 inicializarBotones();
+function actualizarProgreso() {
+  const botones = document.querySelectorAll('button');
+  const total = botones.length;
+  let aprobados = 0;
+
+  botones.forEach(boton => {
+    if (boton.classList.contains('aprobado')) {
+      aprobados++;
+    }
+  });
+
+  const porcentaje = Math.round((aprobados / total) * 100);
+  const barra = document.getElementById('progress-bar');
+  const texto = document.getElementById('progress-text');
+
+  barra.style.width = porcentaje + '%';
+  texto.textContent = `Progreso: ${porcentaje}%`;
+}
+
+// Llama a la función cada vez que cambies un estado
+document.querySelectorAll('button').forEach(button => {
+  button.addEventListener('click', () => {
+    // Aquí va tu lógica para marcar/desmarcar, si no está en tu código actual
+    // Por ejemplo, para toggle aprobado:
+    if (!button.classList.contains('bloqueado')) {
+      button.classList.toggle('aprobado');
+    }
+    actualizarProgreso();
+  });
+});
+
+// Inicializa la barra al cargar la página
+actualizarProgreso();
