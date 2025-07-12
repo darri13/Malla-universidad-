@@ -3,7 +3,6 @@ body {
   font-family: 'Poppins', sans-serif;
   padding: 20px;
   color: #9C2753;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1 {
@@ -27,14 +26,8 @@ button {
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
-  transition: all 0.3s ease;
   cursor: pointer;
-}
-
-@keyframes rebote {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  transition: all 0.3s ease;
 }
 
 button.aprobado {
@@ -42,7 +35,6 @@ button.aprobado {
   color: white;
   text-decoration: line-through;
   box-shadow: 0 4px 12px rgba(244, 143, 177, 0.8);
-  animation: rebote 0.4s ease;
 }
 
 button.bloqueado {
@@ -67,7 +59,6 @@ button:not(.bloqueado):hover {
   border-radius: 10px;
   margin-bottom: 20px;
   height: 25px;
-  transition: background-color 0.3s ease;
 }
 
 #progress-bar {
@@ -83,7 +74,6 @@ button:not(.bloqueado):hover {
   font-weight: 600;
   color: #9C2753;
   margin-bottom: 20px;
-  transition: color 0.3s ease;
 }
 
 #buscador {
@@ -96,7 +86,6 @@ button:not(.bloqueado):hover {
   font-family: 'Poppins', sans-serif;
   color: #9C2753;
   outline: none;
-  transition: border-color 0.3s ease;
 }
 
 #buscador:focus {
