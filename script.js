@@ -14,8 +14,8 @@ const requisitos = {
   ingles3: ['ingles2'],
   probabilidad: ['matematica'],
   finanzas: [
-    ['contabilidadGestion'],
-    ['contabilidad1']
+    ['contabilidadGestion', 'matematica'],
+    ['contabilidad1', 'matematica']
   ],
   marketingOperacional: [
     ['costos'],
@@ -36,39 +36,37 @@ if (datosGuardados) {
 }
 
 // Inicializar botones
-document.querySelectorAll('button').forEach(btn => {
+function inicializarBotones() {
+  document.querySelectorAll('button').forEach(btn => {
+    const id = btn.id;
+    if (aprobados[id]) {
+      btn.classList.add('aprobado');
+    }
+    actualizarEstadoBoton(btn);
+  });
+}
+
+function actualizarEstadoBoton(btn) {
   const id = btn.id;
-  if (aprobados[id]) {
-    btn.classList.add('aprobado');
-  }
   if (!requisitos[id]) return;
 
   let desbloqueado = false;
 
+  // Si es un array de arrays (opciones OR), revisa cada combinación
   if (Array.isArray(requisitos[id][0])) {
-    // Opciones combinadas
-    desbloqueado = requisitos[id].some(opcion => 
+    desbloqueado = requisitos[id].some(opcion =>
       opcion.every(r => aprobados[r])
     );
-    if (id === 'finanzas') {
-      desbloqueado = (aprobados['matematica'] && (
-        aprobados['contabilidadGestion'] || aprobados['contabilidad1']
-      ));
-    }
-    if (id === 'marketingOperacional') {
-      desbloqueado = (
-        aprobados['costos'] ||
-        (aprobados['finanzas'] && aprobados['marketingEstrategico'])
-      );
-    }
   } else {
     desbloqueado = requisitos[id].every(r => aprobados[r]);
   }
 
   if (desbloqueado) {
     btn.classList.remove('bloqueado');
+  } else {
+    btn.classList.add('bloqueado');
   }
-});
+}
 
 // Manejar clic en botones
 document.querySelectorAll('button').forEach(btn => {
@@ -82,40 +80,10 @@ document.querySelectorAll('button').forEach(btn => {
     // Guardar en localStorage
     localStorage.setItem('aprobados', JSON.stringify(aprobados));
 
-    verificarDesbloqueo();
+    // Verificar todos los botones
+    document.querySelectorAll('button').forEach(actualizarEstadoBoton);
   });
 });
 
-function verificarDesbloqueo() {
-  document.querySelectorAll('button').forEach(btn => {
-    const id = btn.id;
-    if (!requisitos[id]) return;
-
-    let desbloqueado = false;
-
-    if (Array.isArray(requisitos[id][0])) {
-      desbloqueado = requisitos[id].some(opcion => 
-        opcion.every(r => aprobados[r])
-      );
-      if (id === 'finanzas') {
-        desbloqueado = (aprobados['matematica'] && (
-          aprobados['contabilidadGestion'] || aprobados['contabilidad1']
-        ));
-      }
-      if (id === 'marketingOperacional') {
-        desbloqueado = (
-          aprobados['costos'] ||
-          (aprobados['finanzas'] && aprobados['marketingEstrategico'])
-        );
-      }
-    } else {
-      desbloqueado = requisitos[id].every(r => aprobados[r]);
-    }
-
-    if (desbloqueado) {
-      btn.classList.remove('bloqueado');
-    } else {
-      btn.classList.add('bloqueado');
-    }
-  });
-}
+// Inicializar todo al cargar
+inicializarBotones();
