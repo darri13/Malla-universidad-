@@ -30,36 +30,55 @@ function actualizarProgreso() {
   document.getElementById('progress-text').textContent = `Progreso: ${porcentaje}%`;
 }
 
-function actualizarBloqueados() {
-  document.querySelectorAll('button.ramo').forEach(boton => {
-    const requisitos = boton.dataset.prerequisitos;
-    if (requisitos) {
-      let cumplido = false;
-      const grupos = requisitos.split(',');
-      for (const grupo of grupos) {
-        const opciones = grupo.replace(/[()]/g, '').split('|');
-        const grupoCumplido = opciones.every(id => {
-          const b = document.getElementById(id.trim());
-          return b && b.classList.contains('aprobado');
-        });
-        if (grupoCumplido) {
-          cumplido = true;
-          break;
-        }
-      }
-      if (!cumplido) {
-        boton.classList.add('bloqueado');
-      } else {
-        boton.classList.remove('bloqueado');
-      }
+// Función para evaluar prerrequisitos con AND (,) y OR (|)
+function cumplePrerequisitos(prereq) {
+  // Si no tiene prerrequisitos, siempre está habilitado
+  if (!prereq) return true;
+
+  // El formato esperado es: grupos separados por coma (AND)
+  // cada grupo puede tener opciones separadas por | (OR)
+  // Ejemplo: "(a|b),c" significa (a o b) y c
+  // Primero dividimos por comas para obtener AND
+  const gruposAND = prereq.split(',').map(g => g.trim());
+
+  // Para cada grupo AND, debe cumplirse al menos una opción OR
+  return gruposAND.every(grupo => {
+    if (grupo.includes('|')) {
+      // Grupo con OR
+      const opcionesOR = grupo.replace(/[()]/g, '').split('|').map(op => op.trim());
+      return opcionesOR.some(opcion => {
+        const boton = document.getElementById(opcion);
+        return boton && boton.classList.contains('aprobado');
+      });
+    } else {
+      // Grupo simple (AND)
+      const boton = document.getElementById(grupo);
+      return boton && boton.classList.contains('aprobado');
     }
   });
 }
 
-document.querySelectorAll('button.ramo').forEach(button => {
-  button.addEventListener('click', () => {
-    if (!button.classList.contains('bloqueado')) {
-      button.classList.toggle('aprobado');
+function actualizarBloqueados() {
+  document.querySelectorAll('button.ramo').forEach(boton => {
+    const prereq = boton.dataset.prerequisitos;
+    if (!prereq) {
+      boton.classList.remove('bloqueado');
+      return;
+    }
+    if (cumplePrerequisitos(prereq)) {
+      boton.classList.remove('bloqueado');
+    } else {
+      boton.classList.add('bloqueado');
+      // Si está bloqueado, quitar aprobado para evitar inconsistencias
+      boton.classList.remove('aprobado');
+    }
+  });
+}
+
+document.querySelectorAll('button.ramo').forEach(boton => {
+  boton.addEventListener('click', () => {
+    if (!boton.classList.contains('bloqueado')) {
+      boton.classList.toggle('aprobado');
       guardarProgreso();
       actualizarProgreso();
       actualizarBloqueados();
