@@ -1,8 +1,9 @@
 body {
-  background-color: #FCE4EC;
+  background-color: #FFF0F6;
   font-family: 'Poppins', sans-serif;
   padding: 20px;
-  color: #880E4F;
+  color: #9C2753;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1 {
@@ -14,7 +15,7 @@ section {
 }
 
 section h2 {
-  color: #AD1457;
+  color: #BF5F82;
   text-align: center;
   margin-bottom: 12px;
 }
@@ -37,41 +38,42 @@ button {
 }
 
 button.aprobado {
-  background-color: #E91E63;
+  background-color: #F48FB1;
   color: white;
   text-decoration: line-through;
-  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.8);
+  box-shadow: 0 4px 12px rgba(244, 143, 177, 0.8);
   animation: rebote 0.4s ease;
 }
 
 button.bloqueado {
-  background-color: #880E4F;
-  color: #f8bbd0;
+  background-color: #D8A4B9;
+  color: #F8BBD0;
   cursor: not-allowed;
 }
 
 button:not(.aprobado):not(.bloqueado) {
-  background-color: #F48FB1;
-  color: #4A0033;
+  background-color: #FCE4EC;
+  color: #9C2753;
 }
 
 button:not(.bloqueado):hover {
-  background-color: #F06292;
+  background-color: #F48FB1;
   color: white;
 }
 
 #progress-container {
   width: 100%;
-  background-color: #F8BBD0;
+  background-color: #FCE4EC;
   border-radius: 10px;
   margin-bottom: 20px;
   height: 25px;
+  transition: background-color 0.3s ease;
 }
 
 #progress-bar {
   height: 100%;
   width: 0%;
-  background-color: #E91E63;
+  background-color: #F48FB1;
   border-radius: 10px;
   transition: width 0.5s ease;
 }
@@ -79,19 +81,24 @@ button:not(.bloqueado):hover {
 #progress-text {
   text-align: center;
   font-weight: 600;
-  color: #880E4F;
+  color: #9C2753;
   margin-bottom: 20px;
-}
-
-#reset-button,
-#modo-oscuro {
-  margin-right: 10px;
+  transition: color 0.3s ease;
 }
 
 #buscador {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 20px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 2px solid #F48FB1;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  color: #9C2753;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#buscador:focus {
+  border-color: #F06292;
 }
