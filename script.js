@@ -50,6 +50,10 @@ function normalizar(texto) {
   return texto.trim().toUpperCase();
 }
 
+function estaAprobado(nombre) {
+  return [...botones].some(b => normalizar(b.textContent) === normalizar(nombre) && b.classList.contains("aprobado"));
+}
+
 function actualizarBloqueos() {
   botones.forEach(boton => {
     const nombre = normalizar(boton.textContent);
@@ -57,29 +61,33 @@ function actualizarBloqueos() {
       boton.classList.remove("bloqueado");
       return;
     }
+
     const requisitos = prerrequisitos[nombre];
     if (!requisitos) {
+      // Sin prerrequisitos, desbloqueado
       boton.classList.remove("bloqueado");
       return;
     }
 
-    const estaDisponible = requisitos.some(grupo => {
+    // Requisitos puede ser array de strings o array de arrays (para “o”)
+    // La lógica es: si algún grupo de requisitos (array) se cumple, desbloquea (OR entre grupos)
+    // Dentro de cada grupo, todos los ramos deben estar aprobados (AND dentro de grupo)
+
+    const disponible = requisitos.some(grupo => {
       if (typeof grupo === "string") {
+        // requisito único
         return estaAprobado(grupo);
       } else if (Array.isArray(grupo)) {
-        return grupo.every(otro => estaAprobado(otro));
+        // grupo con varios prereqs -> todos deben estar aprobados
+        return grupo.every(req => estaAprobado(req));
       }
       return false;
     });
 
-    boton.classList.toggle("bloqueado", !estaDisponible);
+    boton.classList.toggle("bloqueado", !disponible);
   });
 
   actualizarProgreso();
-}
-
-function estaAprobado(nombre) {
-  return [...botones].some(b => normalizar(b.textContent) === normalizar(nombre) && b.classList.contains("aprobado"));
 }
 
 botones.forEach(boton => {
