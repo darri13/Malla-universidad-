@@ -72,28 +72,8 @@ document.querySelectorAll('button.ramo').forEach(button => {
       guardarProgreso();
       actualizarProgreso();
       actualizarBloqueados();
-      const frases = [
-        "¡Buen trabajo!",
-        "¡Vas avanzando genial!",
-        "¡Un paso más cerca del título!",
-        "¡Sigue así, crack!"
-      ];
-      alert(frases[Math.floor(Math.random() * frases.length)]);
     }
   });
-});
-
-document.getElementById('reset-button').addEventListener('click', () => {
-  if (confirm("¿Seguro que quieres borrar todo tu progreso?")) {
-    localStorage.removeItem('ramosAprobados');
-    document.querySelectorAll('button.ramo').forEach(b => b.classList.remove('aprobado'));
-    actualizarProgreso();
-    actualizarBloqueados();
-  }
-});
-
-document.getElementById('modo-oscuro').addEventListener('click', () => {
-  document.body.classList.toggle('oscuro');
 });
 
 document.getElementById('buscador').addEventListener('input', (e) => {
