@@ -1,4 +1,3 @@
-// Guarda en localStorage los IDs de los ramos aprobados
 function guardarProgreso() {
   const aprobados = [];
   document.querySelectorAll('button.aprobado').forEach(boton => {
@@ -7,11 +6,9 @@ function guardarProgreso() {
   localStorage.setItem('ramosAprobados', JSON.stringify(aprobados));
 }
 
-// Carga el progreso guardado al iniciar
 function cargarProgreso() {
   const datos = localStorage.getItem('ramosAprobados');
   if (!datos) return;
-
   const aprobados = JSON.parse(datos);
   aprobados.forEach(id => {
     const boton = document.getElementById(id);
@@ -21,7 +18,6 @@ function cargarProgreso() {
   });
 }
 
-// Actualiza la barra de progreso
 function actualizarProgreso() {
   const botones = document.querySelectorAll('button');
   const total = botones.length;
@@ -39,21 +35,80 @@ function actualizarProgreso() {
 
   barra.style.width = porcentaje + '%';
   texto.textContent = `Progreso: ${porcentaje}%`;
+
+  if (porcentaje === 100) {
+    alert("🎉 ¡Felicidades! Has completado toda la malla 🎓");
+  }
 }
 
-// Cuando se haga click en un botón
+function actualizarBloqueados() {
+  document.querySelectorAll('button').forEach(boton => {
+    const requisitos = boton.dataset.prerequisitos;
+    if (requisitos) {
+      let cumplido = false;
+      requisitos.split(",").forEach(grupo => {
+        const opciones = grupo.split("|");
+        const grupoCumplido = opciones.every(id => {
+          const b = document.getElementById(id);
+          return b && b.classList.contains('aprobado');
+        });
+        if (grupoCumplido) {
+          cumplido = true;
+        }
+      });
+      if (!cumplido) {
+        boton.classList.add('bloqueado');
+      } else {
+        boton.classList.remove('bloqueado');
+      }
+    }
+  });
+}
+
 document.querySelectorAll('button').forEach(button => {
   button.addEventListener('click', () => {
     if (!button.classList.contains('bloqueado')) {
       button.classList.toggle('aprobado');
       guardarProgreso();
       actualizarProgreso();
+      actualizarBloqueados();
+      const frases = [
+        "¡Buen trabajo!",
+        "¡Vas avanzando genial!",
+        "¡Un paso más cerca del título!",
+        "¡Sigue así, crack!"
+      ];
+      alert(frases[Math.floor(Math.random() * frases.length)]);
     }
   });
 });
 
-// Al cargar la página, carga el progreso guardado y actualiza barra
+document.getElementById('reset-button').addEventListener('click', () => {
+  if (confirm("¿Seguro que quieres borrar todo tu progreso?")) {
+    localStorage.removeItem('ramosAprobados');
+    document.querySelectorAll('button').forEach(b => b.classList.remove('aprobado'));
+    actualizarProgreso();
+    actualizarBloqueados();
+  }
+});
+
+document.getElementById('modo-oscuro').addEventListener('click', () => {
+  document.body.classList.toggle('oscuro');
+});
+
+document.getElementById('buscador').addEventListener('input', (e) => {
+  const texto = e.target.value.toLowerCase();
+  document.querySelectorAll('button').forEach(boton => {
+    if (boton.textContent.toLowerCase().includes(texto)) {
+      boton.style.display = "";
+    } else {
+      boton.style.display = "none";
+    }
+  });
+});
+
 window.addEventListener('load', () => {
   cargarProgreso();
   actualizarProgreso();
+  actualizarBloqueados();
 });
