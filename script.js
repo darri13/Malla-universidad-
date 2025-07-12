@@ -22,23 +22,12 @@ function actualizarProgreso() {
   const botones = document.querySelectorAll('button.ramo');
   const total = botones.length;
   let aprobados = 0;
-
   botones.forEach(boton => {
-    if (boton.classList.contains('aprobado')) {
-      aprobados++;
-    }
+    if (boton.classList.contains('aprobado')) aprobados++;
   });
-
   const porcentaje = Math.round((aprobados / total) * 100);
-  const barra = document.getElementById('progress-bar');
-  const texto = document.getElementById('progress-text');
-
-  barra.style.width = porcentaje + '%';
-  texto.textContent = `Progreso: ${porcentaje}%`;
-
-  if (porcentaje === 100) {
-    alert("🎉 ¡Felicidades! Has completado toda la malla 🎓");
-  }
+  document.getElementById('progress-bar').style.width = porcentaje + '%';
+  document.getElementById('progress-text').textContent = `Progreso: ${porcentaje}%`;
 }
 
 function actualizarBloqueados() {
@@ -46,16 +35,18 @@ function actualizarBloqueados() {
     const requisitos = boton.dataset.prerequisitos;
     if (requisitos) {
       let cumplido = false;
-      requisitos.split(",").forEach(grupo => {
-        const opciones = grupo.split("|");
+      const grupos = requisitos.split(',');
+      for (const grupo of grupos) {
+        const opciones = grupo.replace(/[()]/g, '').split('|');
         const grupoCumplido = opciones.every(id => {
-          const b = document.getElementById(id);
+          const b = document.getElementById(id.trim());
           return b && b.classList.contains('aprobado');
         });
         if (grupoCumplido) {
           cumplido = true;
+          break;
         }
-      });
+      }
       if (!cumplido) {
         boton.classList.add('bloqueado');
       } else {
@@ -76,14 +67,10 @@ document.querySelectorAll('button.ramo').forEach(button => {
   });
 });
 
-document.getElementById('buscador').addEventListener('input', (e) => {
+document.getElementById('buscador').addEventListener('input', e => {
   const texto = e.target.value.toLowerCase();
   document.querySelectorAll('button.ramo').forEach(boton => {
-    if (boton.textContent.toLowerCase().includes(texto)) {
-      boton.style.display = "";
-    } else {
-      boton.style.display = "none";
-    }
+    boton.style.display = boton.textContent.toLowerCase().includes(texto) ? '' : 'none';
   });
 });
 
