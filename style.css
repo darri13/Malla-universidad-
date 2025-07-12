@@ -1,37 +1,57 @@
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background: #f7f7f7;
-}
-
-h1 {
-  text-align: center;
-}
-
-section {
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  background: white;
-  border-radius: 5px;
-}
-
+/* Estilos generales para los botones */
 button {
-  margin: 5px;
   padding: 10px 15px;
+  margin: 5px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
   cursor: pointer;
+  box-shadow: 0 2px 5px rgba(233, 30, 99, 0.3);
 }
 
-button.bloqueado {
-  background: #ddd;
-  color: #666;
-  cursor: not-allowed;
-}
-
+/* Ramo aprobado: rosa fuerte y brillante */
 button.aprobado {
-  background: #4CAF50;
+  background-color: #E91E63; /* rosa fuerte */
   color: white;
   text-decoration: line-through;
+  box-shadow: 0 4px 8px rgba(233, 30, 99, 0.6);
+}
+
+/* Ramo bloqueado: rosa oscuro y sobrio */
+button.bloqueado {
+  background-color: #880E4F; /* rosa oscuro */
+  color: #f8bbd0; /* rosa claro para texto */
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Botón desbloqueado pero no aprobado: rosa suave */
+button:not(.aprobado):not(.bloqueado) {
+  background-color: #F48FB1; /* rosa suave */
+  color: #4A0033; /* texto oscuro */
+}
+
+/* Hover para botones desbloqueados (no bloqueados) */
+button:not(.bloqueado):hover {
+  background-color: #F06292; /* rosa medio */
+  color: white;
+  box-shadow: 0 6px 12px rgba(233, 30, 99, 0.7);
+}
+
+/* Títulos de semestres */
+section h2 {
+  color: #AD1457; /* rosa vino */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* Fondo general (opcional) */
+body {
+  background-color: #FCE4EC; /* rosa muy claro */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  color: #880E4F;
 }
