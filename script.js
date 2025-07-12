@@ -1,6 +1,6 @@
 function guardarProgreso() {
   const aprobados = [];
-  document.querySelectorAll('button.aprobado').forEach(boton => {
+  document.querySelectorAll('button.ramo.aprobado').forEach(boton => {
     aprobados.push(boton.id);
   });
   localStorage.setItem('ramosAprobados', JSON.stringify(aprobados));
@@ -19,7 +19,7 @@ function cargarProgreso() {
 }
 
 function actualizarProgreso() {
-  const botones = document.querySelectorAll('button');
+  const botones = document.querySelectorAll('button.ramo');
   const total = botones.length;
   let aprobados = 0;
 
@@ -42,7 +42,7 @@ function actualizarProgreso() {
 }
 
 function actualizarBloqueados() {
-  document.querySelectorAll('button').forEach(boton => {
+  document.querySelectorAll('button.ramo').forEach(boton => {
     const requisitos = boton.dataset.prerequisitos;
     if (requisitos) {
       let cumplido = false;
@@ -65,7 +65,7 @@ function actualizarBloqueados() {
   });
 }
 
-document.querySelectorAll('button').forEach(button => {
+document.querySelectorAll('button.ramo').forEach(button => {
   button.addEventListener('click', () => {
     if (!button.classList.contains('bloqueado')) {
       button.classList.toggle('aprobado');
@@ -86,7 +86,7 @@ document.querySelectorAll('button').forEach(button => {
 document.getElementById('reset-button').addEventListener('click', () => {
   if (confirm("¿Seguro que quieres borrar todo tu progreso?")) {
     localStorage.removeItem('ramosAprobados');
-    document.querySelectorAll('button').forEach(b => b.classList.remove('aprobado'));
+    document.querySelectorAll('button.ramo').forEach(b => b.classList.remove('aprobado'));
     actualizarProgreso();
     actualizarBloqueados();
   }
@@ -98,7 +98,7 @@ document.getElementById('modo-oscuro').addEventListener('click', () => {
 
 document.getElementById('buscador').addEventListener('input', (e) => {
   const texto = e.target.value.toLowerCase();
-  document.querySelectorAll('button').forEach(boton => {
+  document.querySelectorAll('button.ramo').forEach(boton => {
     if (boton.textContent.toLowerCase().includes(texto)) {
       boton.style.display = "";
     } else {
