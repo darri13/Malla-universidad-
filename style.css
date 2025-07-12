@@ -1,12 +1,24 @@
-/* Tipografía y fondo general */
 body {
-  background-color: #FCE4EC; /* rosa muy claro */
+  background-color: #FCE4EC;
   font-family: 'Poppins', sans-serif;
   padding: 20px;
   color: #880E4F;
 }
 
-/* Estilos generales para los botones */
+h1 {
+  text-align: center;
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+section h2 {
+  color: #AD1457;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
 button {
   padding: 10px 15px;
   margin: 5px;
@@ -14,53 +26,72 @@ button {
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(233, 30, 99, 0.3);
 }
 
-/* Animación rebote */
 @keyframes rebote {
   0% { transform: scale(1); }
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
 
-/* Ramo aprobado: rosa fuerte con animación */
 button.aprobado {
-  background-color: #E91E63; /* rosa fuerte */
+  background-color: #E91E63;
   color: white;
   text-decoration: line-through;
   box-shadow: 0 4px 12px rgba(233, 30, 99, 0.8);
   animation: rebote 0.4s ease;
-  cursor: pointer;
 }
 
-/* Ramo bloqueado: rosa oscuro y sobrio */
 button.bloqueado {
-  background-color: #880E4F; /* rosa oscuro */
-  color: #f8bbd0; /* rosa claro para texto */
+  background-color: #880E4F;
+  color: #f8bbd0;
   cursor: not-allowed;
-  box-shadow: none;
 }
 
-/* Botón desbloqueado pero no aprobado: rosa suave */
 button:not(.aprobado):not(.bloqueado) {
-  background-color: #F48FB1; /* rosa suave */
-  color: #4A0033; /* texto oscuro */
+  background-color: #F48FB1;
+  color: #4A0033;
 }
 
-/* Hover para botones desbloqueados (no bloqueados) */
 button:not(.bloqueado):hover {
-  background-color: #F06292; /* rosa medio */
+  background-color: #F06292;
   color: white;
-  box-shadow: 0 6px 12px rgba(233, 30, 99, 0.7);
 }
 
-/* Títulos de semestres */
-section h2 {
-  color: #AD1457; /* rosa vino */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+#progress-container {
+  width: 100%;
+  background-color: #F8BBD0;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  height: 25px;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #E91E63;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+#progress-text {
   text-align: center;
-  margin-bottom: 12px;
+  font-weight: 600;
+  color: #880E4F;
+  margin-bottom: 20px;
+}
+
+#reset-button,
+#modo-oscuro {
+  margin-right: 10px;
+}
+
+#buscador {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
