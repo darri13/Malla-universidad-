@@ -39,6 +39,7 @@ const semestres = [
       { nombre: "marketing estrategico", prereqs: ["fundamentos de estrategia"] },
       { nombre: "ingles 3", prereqs: ["ingles 2"] },
       { nombre: "introduccion a las finanzas", prereqs: ["contabilidad para la gestion", "matematica general"] }, 
+      { nombre: "introduccion a las finanzas (alternativo)", prereqs: ["contabilidad 1", "matematica general"] },
       { nombre: "probabilidad & estadistica", prereqs: ["matematica general"] }
     ]
   },
