@@ -18,6 +18,7 @@
 
   <h1>Malla Interactiva</h1>
 
+  <!-- 1° Semestre -->
   <section>
     <h2>1° Semestre</h2>
     <button class="ramo" id="tecnologia1">Tecnología de la Información I</button>
@@ -27,6 +28,7 @@
     <button class="ramo" id="comunicacion">Técnicas de Comunicación y Habilidades Interpersonales</button>
   </section>
 
+  <!-- 2° Semestre -->
   <section>
     <h2>2° Semestre</h2>
     <button class="ramo" id="economia" data-prerequisitos="matematica">Economía</button>
@@ -36,6 +38,7 @@
     <button class="ramo" id="algebra1" data-prerequisitos="matematica">Álgebra 1</button>
   </section>
 
+  <!-- 3° Semestre -->
   <section>
     <h2>3° Semestre</h2>
     <button class="ramo" id="costos" data-prerequisitos="contabilidad1">Costos</button>
@@ -46,19 +49,21 @@
     <button class="ramo" id="sostenible">Economía Circular y Desarrollo Sostenible</button>
   </section>
 
+  <!-- 4° Semestre -->
   <section>
     <h2>4° Semestre</h2>
     <button class="ramo" id="liderazgo" data-prerequisitos="introduccionNegocios,comunicacion">Taller de Liderazgo y Desarrollo Personal</button>
     <button class="ramo" id="microeconomia" data-prerequisitos="calculo,economia">Microeconomía I</button>
     <button class="ramo" id="marketingEstrategico" data-prerequisitos="estrategia">Marketing Estratégico</button>
     <button class="ramo" id="ingles3" data-prerequisitos="ingles2">Inglés III</button>
-    <button class="ramo" id="finanzas" data-prerequisitos="matematica,contabilidadGestion|contabilidad1">Introducción a las Finanzas</button>
+    <button class="ramo" id="finanzas" data-prerequisitos="(contabilidadGestion|contabilidad1),matematica">Introducción a las Finanzas</button>
     <button class="ramo" id="probabilidad" data-prerequisitos="matematica">Probabilidad y Estadística</button>
   </section>
 
+  <!-- 5° Semestre -->
   <section>
     <h2>5° Semestre</h2>
-    <button class="ramo" id="marketingOperacional" data-prerequisitos="costos|marketingEstrategico,finanzas">Marketing Operacional</button>
+    <button class="ramo" id="marketingOperacional" data-prerequisitos="(costos)|(finanzas,marketingEstrategico)">Marketing Operacional</button>
     <button class="ramo" id="macroeconomia" data-prerequisitos="economia">Macroeconomía I</button>
     <button class="ramo" id="derecho">Derecho Empresarial</button>
     <button class="ramo" id="inferencia" data-prerequisitos="probabilidad">Inferencia Estadística</button>
