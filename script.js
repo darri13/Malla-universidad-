@@ -14,9 +14,9 @@ const requisitos = {
   ingles3: ['ingles2'],
   probabilidad: ['matematica'],
   finanzas: [
-    ['contabilidadGestion'], 
+    ['contabilidadGestion'],
     ['contabilidad1']
-  ], // O cualquiera de estos + matematica
+  ],
   marketingOperacional: [
     ['costos'],
     ['finanzas', 'marketingEstrategico']
@@ -27,9 +27,50 @@ const requisitos = {
 };
 
 // Estado de ramos aprobados
-const aprobados = {};
+let aprobados = {};
 
-// Manejar click
+// Cargar estado guardado desde localStorage
+const datosGuardados = localStorage.getItem('aprobados');
+if (datosGuardados) {
+  aprobados = JSON.parse(datosGuardados);
+}
+
+// Inicializar botones
+document.querySelectorAll('button').forEach(btn => {
+  const id = btn.id;
+  if (aprobados[id]) {
+    btn.classList.add('aprobado');
+  }
+  if (!requisitos[id]) return;
+
+  let desbloqueado = false;
+
+  if (Array.isArray(requisitos[id][0])) {
+    // Opciones combinadas
+    desbloqueado = requisitos[id].some(opcion => 
+      opcion.every(r => aprobados[r])
+    );
+    if (id === 'finanzas') {
+      desbloqueado = (aprobados['matematica'] && (
+        aprobados['contabilidadGestion'] || aprobados['contabilidad1']
+      ));
+    }
+    if (id === 'marketingOperacional') {
+      desbloqueado = (
+        aprobados['costos'] ||
+        (aprobados['finanzas'] && aprobados['marketingEstrategico'])
+      );
+    }
+  } else {
+    desbloqueado = requisitos[id].every(r => aprobados[r]);
+  }
+
+  if (desbloqueado) {
+    btn.classList.remove('bloqueado');
+  }
+});
+
+// Manejar clic en botones
 document.querySelectorAll('button').forEach(btn => {
   btn.addEventListener('click', () => {
     if (btn.classList.contains('bloqueado')) return;
@@ -37,6 +78,9 @@ document.querySelectorAll('button').forEach(btn => {
     btn.classList.toggle('aprobado');
     const id = btn.id;
     aprobados[id] = btn.classList.contains('aprobado');
+
+    // Guardar en localStorage
+    localStorage.setItem('aprobados', JSON.stringify(aprobados));
 
     verificarDesbloqueo();
   });
@@ -50,7 +94,6 @@ function verificarDesbloqueo() {
     let desbloqueado = false;
 
     if (Array.isArray(requisitos[id][0])) {
-      // Tiene varias opciones de combinación
       desbloqueado = requisitos[id].some(opcion => 
         opcion.every(r => aprobados[r])
       );
