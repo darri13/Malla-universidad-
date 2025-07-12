@@ -1,124 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Malla Interactiva Actualizada</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>programacion semestral</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 0 10px;
+  }
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+  }
+  .semestre {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+  }
+  .semestre h2 {
+    text-transform: uppercase;
+    color: #34495e;
+  }
+  .ramo {
+    margin: 6px 0;
+    padding: 5px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+  }
+  input[type="checkbox"] {
+    margin-right: 12px;
+    transform: scale(1.3);
+    cursor: pointer;
+  }
+  input[type="checkbox"]:disabled {
+    cursor: not-allowed;
+  }
+  label {
+    flex: 1;
+    cursor: pointer;
+  }
+  .aprobado {
+    background-color: #a3d9a5; /* verde claro */
+    color: #1e4620;
+  }
+  .bloqueado {
+    background-color: #f3b5b5; /* rojo claro */
+    color: #701919;
+  }
+  .desbloqueado {
+    background-color: #f0f0f0;
+  }
+</style>
 </head>
 <body>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-  </div>
-  <p id="progress-text">Progreso: 0%</p>
+<h1>programacion semestral</h1>
+<div id="plan"></div>
 
-  <input type="text" id="buscador" placeholder="Buscar ramo...">
+<script src="script.js"></script>
 
-  <h1>Malla Interactiva Universidad</h1>
-
-  <!-- Semestre 1 -->
-  <section>
-    <h2>1° Semestre</h2>
-    <button class="ramo" id="tecnologia1">Tecnología de la Información 1</button>
-    <button class="ramo" id="matematica">Matemática General</button>
-    <button class="ramo" id="introduccionNegocios">Introducción a los Negocios</button>
-    <button class="ramo" id="contabilidad1">Contabilidad 1</button>
-    <button class="ramo" id="comunicacion">Técnicas de Comunicación & Habilidades Interpersonales</button>
-  </section>
-
-  <!-- Semestre 2 -->
-  <section>
-    <h2>2° Semestre</h2>
-    <button class="ramo" id="economia" data-prerequisitos="matematica">Economía</button>
-    <button class="ramo" id="emprendimiento">Emprendimiento & Negocios</button>
-    <button class="ramo" id="ingles1">Inglés 1</button>
-    <button class="ramo" id="contabilidadGestion" data-prerequisitos="contabilidad1">Contabilidad para la Gestión</button>
-    <button class="ramo" id="algebra1" data-prerequisitos="matematica">Álgebra 1</button>
-  </section>
-
-  <!-- Semestre 3 -->
-  <section>
-    <h2>3° Semestre</h2>
-    <button class="ramo" id="costos" data-prerequisitos="contabilidad1">Costos</button>
-    <button class="ramo" id="ingles2" data-prerequisitos="ingles1">Inglés 2</button>
-    <button class="ramo" id="calculo" data-prerequisitos="matematica">Cálculo Diferencial</button>
-    <button class="ramo" id="datos" data-prerequisitos="tecnologia1">Datos & Decisiones</button>
-    <button class="ramo" id="estrategia" data-prerequisitos="introduccionNegocios">Fundamentos de Estrategia</button>
-    <button class="ramo" id="sostenible">Economía Circular & Desarrollo Sostenible</button>
-  </section>
-
-  <!-- Semestre 4 -->
-  <section>
-    <h2>4° Semestre</h2>
-    <button class="ramo" id="liderazgo" data-prerequisitos="introduccionNegocios,comunicacion">Taller de Liderazgo & Desarrollo Personal</button>
-    <button class="ramo" id="microeconomia" data-prerequisitos="calculo,economia">Microeconomía 1</button>
-    <button class="ramo" id="marketingEstrategico" data-prerequisitos="estrategia">Marketing Estratégico</button>
-    <button class="ramo" id="ingles3" data-prerequisitos="ingles2">Inglés 3</button>
-    <button class="ramo" id="finanzas" data-prerequisitos="matematica,(contabilidadGestion|contabilidad1)">Introducción a las Finanzas</button>
-    <button class="ramo" id="probabilidad" data-prerequisitos="matematica">Probabilidad & Estadística</button>
-  </section>
-
-  <!-- Semestre 5 -->
-  <section>
-    <h2>5° Semestre</h2>
-    <button class="ramo" id="marketingOperacional" data-prerequisitos="(costos)|(finanzas,marketingEstrategico)">Marketing Operacional</button>
-    <button class="ramo" id="macroeconomia" data-prerequisitos="economia">Macroeconomía 1</button>
-    <button class="ramo" id="derecho">Derecho Empresarial</button>
-    <button class="ramo" id="inferencia" data-prerequisitos="probabilidad">Inferencia Estadística</button>
-    <button class="ramo" id="calidad" data-prerequisitos="probabilidad">Gestión de la Calidad</button>
-  </section>
-
-  <!-- Semestre 6 -->
-  <section>
-    <h2>6° Semestre</h2>
-    <button class="ramo" id="econometria" data-prerequisitos="microeconomia,inferencia">Econometría</button>
-    <button class="ramo" id="microeconomia2" data-prerequisitos="microeconomia">Microeconomía 2</button>
-    <button class="ramo" id="marketingServicios" data-prerequisitos="marketingEstrategico,marketingOperacional">Marketing de Servicios</button>
-    <button class="ramo" id="direccionRRHH" data-prerequisitos="introduccionNegocios">Dirección Estratégica de RRHH</button>
-    <button class="ramo" id="planificacionTributaria" data-prerequisitos="contabilidad1">Planificación & Gestión Tributaria</button>
-  </section>
-
-  <!-- Semestre 7 -->
-  <section>
-    <h2>7° Semestre</h2>
-    <button class="ramo" id="gestionCambio" data-prerequisitos="direccionRRHH">Gestión del Cambio Organizacional</button>
-    <button class="ramo" id="direccionEstrategica" data-prerequisitos="emprendimiento,marketingEstrategico,estrategia">Dirección Estratégica</button>
-    <button class="ramo" id="evaluacionProyectos" data-prerequisitos="marketingEstrategico,finanzas">Preparación & Evaluación de Proyectos</button>
-    <button class="ramo" id="macroeconomia2" data-prerequisitos="macroeconomia">Macroeconomía 2</button>
-    <button class="ramo" id="comercioInternacional" data-prerequisitos="estrategia">Comercio Internacional</button>
-  </section>
-
-  <!-- Semestre 8 -->
-  <section>
-    <h2>8° Semestre</h2>
-    <button class="ramo" id="administracionProduccion" data-prerequisitos="direccionEstrategica,calidad">Administración de la Producción</button>
-    <button class="ramo" id="investigacionMercados" data-prerequisitos="marketingOperacional,marketingEstrategico,inferencia">Investigación de Mercados</button>
-    <button class="ramo" id="finanzasCorporativas" data-prerequisitos="finanzas">Finanzas Corporativas</button>
-    <button class="ramo" id="controlGestion" data-prerequisitos="estrategia,direccionRRHH">Control de Gestión</button>
-    <button class="ramo" id="negociacion" data-prerequisitos="liderazgo">Negociación & Resolución de Conflictos</button>
-  </section>
-
-  <!-- Semestre 9 -->
-  <section>
-    <h2>9° Semestre</h2>
-    <button class="ramo" id="gestionMarcas" data-prerequisitos="marketingEstrategico,marketingOperacional">Gestión de Marcas</button>
-    <button class="ramo" id="tallerConsultoria" data-prerequisitos="finanzas,evaluacionProyectos,marketingEstrategico">Taller de Consultoría</button>
-    <button class="ramo" id="gestionEmprendimiento" data-prerequisitos="emprendimiento">Gestión de Emprendimiento & Nuevos Negocios</button>
-    <button class="ramo" id="tallerCarrera" data-prerequisitos="liderazgo">Taller de Desarrollo de Carrera</button>
-    <button class="ramo" id="instrumentosInversion" data-prerequisitos="finanzasCorporativas">Instrumentos de Inversión</button>
-    <button class="ramo" id="economiaPoliticasPublicas" data-prerequisitos="macroeconomia,microeconomia">Economía para Políticas Públicas</button>
-  </section>
-
-  <!-- Semestre 10 -->
-  <section>
-    <h2>10° Semestre</h2>
-    <button class="ramo" id="decisionesSimulacion" data-prerequisitos="econometria">Decisiones & Simulación</button>
-    <button class="ramo" id="responsabilidadSocial" data-prerequisitos="estrategia">Responsabilidad Social Corporativa</button>
-    <button class="ramo" id="financiamientoInversiones" data-prerequisitos="evaluacionProyectos">Financiamiento de Inversiones</button>
-    <button class="ramo" id="tallerAplicado" data-prerequisitos="evaluacionProyectos,direccionEstrategica,direccionRRHH,marketingOperacional">Taller Aplicado a Administración</button>
-  </section>
-
-  <script src="script.js"></script>
 </body>
 </html>
