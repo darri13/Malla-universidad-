@@ -1,137 +1,208 @@
-const prerrequisitos = {
-  "ECONOMÍA": ["MATEMÁTICA GENERAL"],
-  "CONTABILIDAD PARA LA GESTIÓN": ["CONTABILIDAD 1"],
-  "ÁLGEBRA 1": ["MATEMÁTICA GENERAL"],
-  "COSTOS": ["CONTABILIDAD 1"],
-  "INGLÉS 2": ["INGLÉS 1"],
-  "CÁLCULO DIFERENCIAL": ["MATEMÁTICA GENERAL"],
-  "DATOS & DECISIONES": ["TECNOLOGÍA DE LA INFORMACIÓN 1"],
-  "FUNDAMENTOS DE ESTRATEGIA": ["INTRODUCCIÓN A LOS NEGOCIOS"],
-  "TALLER DE LIDERAZGO & DESARROLLO PERSONAL": ["INTRODUCCIÓN A LOS NEGOCIOS", "TÉCNICAS DE COMUNICACIÓN & HABILIDADES INTERPERSONALES"],
-  "MICROECONOMÍA 1": ["ECONOMÍA", "CÁLCULO DIFERENCIAL"],
-  "MARKETING ESTRATÉGICO": ["FUNDAMENTOS DE ESTRATEGIA"],
-  "INGLÉS 3": ["INGLÉS 2"],
-  "INTRODUCCIÓN A LAS FINANZAS": [["CONTABILIDAD PARA LA GESTIÓN", "MATEMÁTICA GENERAL"], ["CONTABILIDAD 1", "MATEMÁTICA GENERAL"]],
-  "PROBABILIDAD & ESTADÍSTICA": ["MATEMÁTICA GENERAL"],
-  "MARKETING OPERACIONAL": [["COSTOS"], ["INTRODUCCIÓN A LAS FINANZAS", "MARKETING ESTRATÉGICO"]],
-  "MACROECONOMÍA 1": ["ECONOMÍA"],
-  "INFERENCIA ESTADÍSTICA": ["PROBABILIDAD & ESTADÍSTICA"],
-  "GESTIÓN DE LA CALIDAD": ["PROBABILIDAD & ESTADÍSTICA"],
-  "ECONOMETRÍA": ["MICROECONOMÍA 1", "INFERENCIA ESTADÍSTICA"],
-  "MICROECONOMÍA II": ["MICROECONOMÍA 1"],
-  "MARKETING DE SERVICIOS": ["MARKETING ESTRATÉGICO", "MARKETING OPERACIONAL"],
-  "DIRECCIÓN ESTRATÉGICA DE RRHH": ["INTRODUCCIÓN A LOS NEGOCIOS"],
-  "PLANIFICACIÓN & GESTIÓN TRIBUTARIA": ["CONTABILIDAD 1"],
-  "GESTIÓN DEL CAMBIO ORGANIZACIONAL": ["DIRECCIÓN ESTRATÉGICA DE RRHH"],
-  "DIRECCIÓN ESTRATÉGICA": ["EMPRENDIMIENTO & NEGOCIOS", "MARKETING ESTRATÉGICO", "FUNDAMENTOS DE ESTRATEGIA"],
-  "PREPARACIÓN & EVALUACIÓN DE PROYECTOS": ["MARKETING ESTRATÉGICO", "INTRODUCCIÓN A LAS FINANZAS"],
-  "MACROECONOMÍA II": ["MACROECONOMÍA 1"],
-  "COMERCIO INTERNACIONAL": ["FUNDAMENTOS DE ESTRATEGIA"],
-  "ADMINISTRACIÓN DE LA PRODUCCIÓN": [["DIRECCIÓN ESTRATÉGICA"], ["GESTIÓN DE LA CALIDAD"]],
-  "INVESTIGACIÓN DE MERCADOS": ["MARKETING OPERACIONAL", "MARKETING ESTRATÉGICO", "INFERENCIA ESTADÍSTICA"],
-  "FINANZAS CORPORATIVAS": ["INTRODUCCIÓN A LAS FINANZAS"],
-  "CONTROL DE GESTIÓN": ["FUNDAMENTOS DE ESTRATEGIA", "DIRECCIÓN ESTRATÉGICA DE RRHH"],
-  "NEGOCIACIÓN & RESOLUCIÓN DE CONFLICTOS": ["TALLER DE LIDERAZGO & DESARROLLO PERSONAL"],
-  "GESTIÓN DE MARCAS": ["MARKETING ESTRATÉGICO", "MARKETING OPERACIONAL"],
-  "TALLER DE CONSULTORÍA": ["INTRODUCCIÓN A LAS FINANZAS", "PREPARACIÓN & EVALUACIÓN DE PROYECTOS", "MARKETING ESTRATÉGICO"],
-  "GESTIÓN DE EMPRENDIMIENTO & NUEVOS NEGOCIOS": ["EMPRENDIMIENTO & NEGOCIOS"],
-  "TALLER DE DESARROLLO DE CARRERA": ["TALLER DE LIDERAZGO & DESARROLLO PERSONAL"],
-  "INSTRUMENTOS DE INVERSIÓN": ["FINANZAS CORPORATIVAS"],
-  "ECONOMÍA PARA POLÍTICAS PÚBLICAS": ["MACROECONOMÍA 1", "MICROECONOMÍA 1"],
-  "DECISIONES & SIMULACIÓN": ["ECONOMETRÍA"],
-  "RESPONSABILIDAD SOCIAL CORPORATIVA": ["FUNDAMENTOS DE ESTRATEGIA"],
-  "FINANCIAMIENTO DE INVERSIONES": ["PREPARACIÓN & EVALUACIÓN DE PROYECTOS"],
-  "TALLER APLICADO A ADMINISTRACIÓN": ["PREPARACIÓN & EVALUACIÓN DE PROYECTOS", "DIRECCIÓN ESTRATÉGICA", "DIRECCIÓN ESTRATÉGICA DE RRHH", "MARKETING OPERACIONAL"]
+// ramos organizados por semestre con prerrequisitos en minusculas y sin tildes
+const semestres = [
+  {
+    nombre: "semestre 1",
+    ramos: [
+      { nombre: "tecnologia de la informacion 1", prereqs: [] },
+      { nombre: "matematica general", prereqs: [] },
+      { nombre: "introduccion a los negocios", prereqs: [] },
+      { nombre: "contabilidad 1", prereqs: [] },
+      { nombre: "tecnicas de comunicacion & habilidades interpersonales", prereqs: [] }
+    ]
+  },
+  {
+    nombre: "semestre 2",
+    ramos: [
+      { nombre: "economia", prereqs: ["matematica general"] },
+      { nombre: "emprendimiento & negocios", prereqs: [] },
+      { nombre: "ingles 1", prereqs: [] },
+      { nombre: "contabilidad para la gestion", prereqs: ["contabilidad 1"] },
+      { nombre: "algebra 1", prereqs: ["matematica general"] }
+    ]
+  },
+  {
+    nombre: "semestre 3",
+    ramos: [
+      { nombre: "costos", prereqs: ["contabilidad 1"] },
+      { nombre: "ingles 2", prereqs: ["ingles 1"] },
+      { nombre: "calculo diferencial", prereqs: ["matematica general"] },
+      { nombre: "datos & decisiones", prereqs: ["tecnologia de la informacion 1"] },
+      { nombre: "fundamentos de estrategia", prereqs: ["introduccion a los negocios"] },
+      { nombre: "economia circular & desarrollo sostenible", prereqs: [] }
+    ]
+  },
+  {
+    nombre: "semestre 4",
+    ramos: [
+      { nombre: "taller de liderazgo & desarrollo personal", prereqs: ["introduccion a los negocios", "tecnicas de comunicacion & habilidades interpersonales"] },
+      { nombre: "microeconomia 1", prereqs: ["economia", "calculo diferencial"] },
+      { nombre: "marketing estrategico", prereqs: ["fundamentos de estrategia"] },
+      { nombre: "ingles 3", prereqs: ["ingles 2"] },
+      { nombre: "introduccion a las finanzas", prereqs: ["contabilidad para la gestion", "matematica general"] }, 
+      { nombre: "introduccion a las finanzas (alternativo)", prereqs: ["contabilidad 1", "matematica general"] },
+      { nombre: "probabilidad & estadistica", prereqs: ["matematica general"] }
+    ]
+  },
+  {
+    nombre: "semestre 5",
+    ramos: [
+      { nombre: "marketing operacional", prereqs: [["costos"], ["introduccion a las finanzas", "marketing estrategico"]] }, 
+      { nombre: "macroeconomia 1", prereqs: ["economia"] },
+      { nombre: "derecho empresarial", prereqs: [] },
+      { nombre: "inferencia estadistica", prereqs: ["probabilidad & estadistica"] },
+      { nombre: "gestion de la calidad", prereqs: ["probabilidad & estadistica"] }
+    ]
+  },
+  {
+    nombre: "semestre 6",
+    ramos: [
+      { nombre: "econometria", prereqs: ["microeconomia 1", "inferencia estadistica"] },
+      { nombre: "microeconomia 2", prereqs: ["microeconomia 1"] },
+      { nombre: "marketing de servicios", prereqs: ["marketing estrategico", "marketing operacional"] },
+      { nombre: "direccion estrategica de rrhh", prereqs: ["introduccion a los negocios"] },
+      { nombre: "planificacion & gestion tributaria", prereqs: ["contabilidad 1"] }
+    ]
+  },
+  {
+    nombre: "semestre 7",
+    ramos: [
+      { nombre: "gestion del cambio organizacional", prereqs: ["direccion estrategica de rrhh"] },
+      { nombre: "direccion estrategica", prereqs: ["emprendimiento & negocios", "marketing estrategico", "fundamentos de estrategia"] },
+      { nombre: "preparacion & evaluacion de proyectos", prereqs: ["marketing estrategico", "introduccion a las finanzas"] },
+      { nombre: "macroeconomia 2", prereqs: ["macroeconomia 1"] },
+      { nombre: "comercio internacional", prereqs: ["fundamentos de estrategia"] }
+    ]
+  },
+  {
+    nombre: "semestre 8",
+    ramos: [
+      { nombre: "administracion de la produccion", prereqs: [["direccion estrategica"], ["gestion de la calidad"]] },
+      { nombre: "investigacion de mercados", prereqs: ["marketing operacional", "marketing estrategico", "inferencia estadistica"] },
+      { nombre: "finanzas corporativas", prereqs: ["introduccion a las finanzas"] },
+      { nombre: "control de gestion", prereqs: ["fundamentos de estrategia", "direccion estrategica de rrhh"] },
+      { nombre: "negociacion & resolucion de conflictos", prereqs: ["taller de liderazgo & desarrollo personal"] }
+    ]
+  },
+  {
+    nombre: "semestre 9",
+    ramos: [
+      { nombre: "gestion de marcas", prereqs: ["marketing estrategico", "marketing operacional"] },
+      { nombre: "taller de consultoria", prereqs: ["introduccion a las finanzas", "preparacion & evaluacion de proyectos", "marketing estrategico"] },
+      { nombre: "gestion de emprendimiento & nuevos negocios", prereqs: ["emprendimiento & negocios"] },
+      { nombre: "taller de desarrollo de carrera", prereqs: ["taller de liderazgo & desarrollo personal"] },
+      { nombre: "instrumentos de inversion", prereqs: ["finanzas corporativas"] },
+      { nombre: "economia para politicas publicas", prereqs: ["macroeconomia 1", "microeconomia 1"] }
+    ]
+  },
+  {
+    nombre: "semestre 10",
+    ramos: [
+      { nombre: "decisiones & simulacion", prereqs: ["econometria"] },
+      { nombre: "responsabilidad social corporativa", prereqs: ["fundamentos de estrategia"] },
+      { nombre: "financiamiento de inversiones", prereqs: ["preparacion & evaluacion de proyectos"] },
+      { nombre: "taller aplicado a administracion", prereqs: ["preparacion & evaluacion de proyectos", "direccion estrategica", "direccion estrategica de rrhh", "marketing operacional"] }
+    ]
+  }
+];
+
+// para prerrequisitos alternativos (ej: marketing operacional) usaremos arrays anidados para "o", arrays planos para "y"
+
+const estado = {
+  aprobados: new Set()
 };
 
-const botones = document.querySelectorAll("button");
-
-function normalizar(texto) {
-  return texto.trim().toUpperCase();
+// guardamos y cargamos del localStorage
+function guardarEstado() {
+  localStorage.setItem("ramosAprobados", JSON.stringify(Array.from(estado.aprobados)));
 }
 
-function estaAprobado(nombre) {
-  return [...botones].some(b => normalizar(b.textContent) === normalizar(nombre) && b.classList.contains("aprobado"));
-}
-
-function actualizarBloqueos() {
-  botones.forEach(boton => {
-    const nombre = normalizar(boton.textContent);
-    if (boton.classList.contains("aprobado")) {
-      boton.classList.remove("bloqueado");
-      return;
-    }
-
-    const requisitos = prerrequisitos[nombre];
-    if (!requisitos) {
-      // Sin prerrequisitos, desbloqueado
-      boton.classList.remove("bloqueado");
-      return;
-    }
-
-    // Requisitos puede ser array de strings o array de arrays (para “o”)
-    // La lógica es: si algún grupo de requisitos (array) se cumple, desbloquea (OR entre grupos)
-    // Dentro de cada grupo, todos los ramos deben estar aprobados (AND dentro de grupo)
-
-    const disponible = requisitos.some(grupo => {
-      if (typeof grupo === "string") {
-        // requisito único
-        return estaAprobado(grupo);
-      } else if (Array.isArray(grupo)) {
-        // grupo con varios prereqs -> todos deben estar aprobados
-        return grupo.every(req => estaAprobado(req));
-      }
-      return false;
-    });
-
-    boton.classList.toggle("bloqueado", !disponible);
-  });
-
-  actualizarProgreso();
-}
-
-botones.forEach(boton => {
-  boton.addEventListener("click", () => {
-    if (!boton.classList.contains("bloqueado")) {
-      boton.classList.toggle("aprobado");
-      guardarProgreso();
-      actualizarBloqueos();
-    }
-  });
-});
-
-function actualizarProgreso() {
-  const total = botones.length;
-  const aprobados = document.querySelectorAll(".aprobado").length;
-  const porcentaje = ((aprobados / total) * 100).toFixed(1);
-  document.getElementById("progress-bar").style.width = `${porcentaje}%`;
-  document.getElementById("progress-text").textContent = `Avance: ${porcentaje}% (${aprobados}/${total})`;
-}
-
-function guardarProgreso() {
-  const aprobados = [...botones].filter(b => b.classList.contains("aprobado")).map(b => b.textContent);
-  localStorage.setItem("ramosAprobados", JSON.stringify(aprobados));
-}
-
-function cargarProgreso() {
+function cargarEstado() {
   const datos = localStorage.getItem("ramosAprobados");
   if (datos) {
-    const aprobados = JSON.parse(datos);
-    botones.forEach(b => {
-      if (aprobados.includes(b.textContent)) {
-        b.classList.add("aprobado");
-      }
-    });
+    estado.aprobados = new Set(JSON.parse(datos));
   }
 }
 
-document.getElementById("buscador").addEventListener("input", e => {
-  const texto = e.target.value.toLowerCase();
-  botones.forEach(b => {
-    const visible = b.textContent.toLowerCase().includes(texto);
-    b.style.display = visible ? "inline-block" : "none";
-  });
-});
+// función para comprobar si todos los prerequisitos de un ramo están aprobados
+// para prerrequisitos "y" (AND) y "o" (OR)
+function prereqsCumplidos(prereqs) {
+  if (prereqs.length === 0) return true;
+  // si es prerrequisito alternativo "o", es array de arrays
+  if (Array.isArray(prereqs[0])) {
+    // ejemplo: prereqs = [ ["costos"], ["introduccion a las finanzas", "marketing estrategico"] ]
+    // Se cumple si se cumple alguna de las opciones (OR)
+    return prereqs.some(grupo => grupo.every(ramo => estado.aprobados.has(ramo)));
+  } else {
+    // prerrequisitos AND
+    return prereqs.every(ramo => estado.aprobados.has(ramo));
+  }
+}
 
-cargarProgreso();
-actualizarBloqueos();
+// verificamos si el ramo esta desbloqueado
+function estaDesbloqueado(ramo) {
+  return prereqsCumplidos(ramo.prereqs);
+}
+
+const planDiv = document.getElementById("plan");
+
+// renderizamos todo el plan
+function renderizarPlan() {
+  planDiv.innerHTML = "";
+
+  semestres.forEach(semestre => {
+    const divSem = document.createElement("div");
+    divSem.className = "semestre";
+
+    const h2 = document.createElement("h2");
+    h2.textContent = semestre.nombre;
+    divSem.appendChild(h2);
+
+    semestre.ramos.forEach(ramo => {
+      const divRamo = document.createElement("div");
+      divRamo.className = "ramo";
+
+      const desbloqueado = estaDesbloqueado(ramo);
+      const aprobado = estado.aprobados.has(ramo.nombre);
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = ramo.nombre;
+      checkbox.disabled = !desbloqueado;
+      checkbox.checked = aprobado;
+
+      checkbox.addEventListener("change", () => {
+        if (checkbox.checked) {
+          estado.aprobados.add(ramo.nombre);
+        } else {
+          estado.aprobados.delete(ramo.nombre);
+        }
+        guardarEstado();
+        renderizarPlan();
+      });
+
+      const label = document.createElement("label");
+      label.htmlFor = ramo.nombre;
+      label.textContent = ramo.nombre;
+
+      divRamo.appendChild(checkbox);
+      divRamo.appendChild(label);
+
+      // colores segun estado
+      if (aprobado) {
+        divRamo.classList.add("aprobado");
+      } else if (!desbloqueado) {
+        divRamo.classList.add("bloqueado");
+      } else {
+        divRamo.classList.add("desbloqueado");
+      }
+
+      divSem.appendChild(divRamo);
+    });
+
+    planDiv.appendChild(divSem);
+  });
+}
+
+// al cargar la pagina
+cargarEstado();
+renderizarPlan();
