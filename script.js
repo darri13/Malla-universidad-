@@ -1,4 +1,3 @@
-// ramos organizados por semestre con prerrequisitos en minusculas y sin tildes
 const semestres = [
   {
     nombre: "semestre 1",
@@ -38,8 +37,11 @@ const semestres = [
       { nombre: "microeconomia 1", prereqs: ["economia", "calculo diferencial"] },
       { nombre: "marketing estrategico", prereqs: ["fundamentos de estrategia"] },
       { nombre: "ingles 3", prereqs: ["ingles 2"] },
-      { nombre: "introduccion a las finanzas", prereqs: ["contabilidad para la gestion", "matematica general"] }, 
-      { nombre: "introduccion a las finanzas (alternativo)", prereqs: ["contabilidad 1", "matematica general"] },
+      { nombre: "introduccion a las finanzas", prereqs: [
+          ["contabilidad para la gestion", "matematica general"],
+          ["contabilidad 1", "matematica general"]
+        ]
+      },
       { nombre: "probabilidad & estadistica", prereqs: ["matematica general"] }
     ]
   },
@@ -105,13 +107,10 @@ const semestres = [
   }
 ];
 
-// para prerrequisitos alternativos (ej: marketing operacional) usaremos arrays anidados para "o", arrays planos para "y"
-
 const estado = {
   aprobados: new Set()
 };
 
-// guardamos y cargamos del localStorage
 function guardarEstado() {
   localStorage.setItem("ramosAprobados", JSON.stringify(Array.from(estado.aprobados)));
 }
@@ -123,29 +122,21 @@ function cargarEstado() {
   }
 }
 
-// función para comprobar si todos los prerequisitos de un ramo están aprobados
-// para prerrequisitos "y" (AND) y "o" (OR)
 function prereqsCumplidos(prereqs) {
   if (prereqs.length === 0) return true;
-  // si es prerrequisito alternativo "o", es array de arrays
   if (Array.isArray(prereqs[0])) {
-    // ejemplo: prereqs = [ ["costos"], ["introduccion a las finanzas", "marketing estrategico"] ]
-    // Se cumple si se cumple alguna de las opciones (OR)
     return prereqs.some(grupo => grupo.every(ramo => estado.aprobados.has(ramo)));
   } else {
-    // prerrequisitos AND
     return prereqs.every(ramo => estado.aprobados.has(ramo));
   }
 }
 
-// verificamos si el ramo esta desbloqueado
 function estaDesbloqueado(ramo) {
   return prereqsCumplidos(ramo.prereqs);
 }
 
 const planDiv = document.getElementById("plan");
 
-// renderizamos todo el plan
 function renderizarPlan() {
   planDiv.innerHTML = "";
 
@@ -184,10 +175,48 @@ function renderizarPlan() {
       label.htmlFor = ramo.nombre;
       label.textContent = ramo.nombre;
 
+      const botonFlecha = document.createElement("button");
+      botonFlecha.textContent = "▼";
+      botonFlecha.style.marginLeft = "10px";
+      botonFlecha.style.cursor = "pointer";
+      botonFlecha.style.border = "none";
+      botonFlecha.style.background = "transparent";
+      botonFlecha.style.fontSize = "16px";
+      botonFlecha.style.userSelect = "none";
+
+      const divPrereqs = document.createElement("div");
+      divPrereqs.style.display = "none";
+      divPrereqs.style.fontSize = "13px";
+      divPrereqs.style.marginTop = "4px";
+      divPrereqs.style.marginLeft = "30px";
+      divPrereqs.style.color = "#555";
+
+      if (ramo.prereqs.length === 0) {
+        divPrereqs.textContent = "sin prerrequisitos";
+      } else {
+        if (Array.isArray(ramo.prereqs[0])) {
+          const opciones = ramo.prereqs.map(grupo => grupo.join(" + "));
+          divPrereqs.textContent = "prerrequisitos: " + opciones.join(" o ");
+        } else {
+          divPrereqs.textContent = "prerrequisitos: " + ramo.prereqs.join(" + ");
+        }
+      }
+
+      botonFlecha.addEventListener("click", () => {
+        if (divPrereqs.style.display === "none") {
+          divPrereqs.style.display = "block";
+          botonFlecha.textContent = "▲";
+        } else {
+          divPrereqs.style.display = "none";
+          botonFlecha.textContent = "▼";
+        }
+      });
+
       divRamo.appendChild(checkbox);
       divRamo.appendChild(label);
+      divRamo.appendChild(botonFlecha);
+      divRamo.appendChild(divPrereqs);
 
-      // colores segun estado
       if (aprobado) {
         divRamo.classList.add("aprobado");
       } else if (!desbloqueado) {
@@ -203,6 +232,5 @@ function renderizarPlan() {
   });
 }
 
-// al cargar la pagina
 cargarEstado();
 renderizarPlan();
